@@ -1,0 +1,39 @@
+# Core app dependencies
+flask
+gunicorn
+
+# OCR
+paddleocr==2.9.1
+paddlepaddle-gpu==2.6.2
+pytesseract
+opencv-python
+
+# NLP / LLM
+transformers==4.49.0
+torch==2.6.0
+torchvision==0.21.0
+
+# Data processing
+numpy
+pandas
+scikit-learn
+scipy
+
+# Image processing / augmentation (if needed)
+albumentations
+imgaug
+scikit-image
+pillow
+
+# Optional: Huggingface Hub if you're loading models
+huggingface-hub
+
+# Optional: If you're loading datasets
+datasets
+
+# Optional: For fast progress bars
+tqdm
+
+# Optional: JSON, XML, web scraping or parsing
+beautifulsoup4
+lxml
