@@ -1,18 +1,30 @@
-FROM nvcr.io/nvidia/paddlepaddle:24.12-py3
+# Use official Python base
+FROM python:3.12-slim
 
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Set work directory
 WORKDIR /app
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     libgl1 \
     libglib2.0-0 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean
 
+# Copy dependency list
 COPY requirements.txt .
-RUN pip install -r requirements.txt
 
-COPY app/ /app
+# Install Python dependencies
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
+# Copy your project files
+COPY . .
+
+# Expose port
 EXPOSE 50505
 
-ENTRYPOINT ["gunicorn", "app:app"]
+# Run Flask app
+CMD ["python", "app.py"]

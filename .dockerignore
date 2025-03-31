@@ -3,8 +3,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.ipynb
-.env
-workspace/
 .git/
-node_modules/
 *.log
+ocr_env
+bash_setup.sh

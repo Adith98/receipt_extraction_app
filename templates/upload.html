@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Receipt</title>
+  <style>
+    img {
+      max-width: 500px;
+      margin-top: 20px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload Receipt</h1>
+  <form id="receiptForm" enctype="multipart/form-data">
+    <input type="file" name="receipt" accept="image/*" required>
+    <button type="submit">Upload Please</button>
+  </form>
+
+  <div id="result" style="display:none;">
+    <h2>Annotated Image:</h2>
+    <img id="annotatedImg" src="">
+    
+    <h2>Extracted Data:</h2>
+    <pre id="jsonOutput"></pre>
+  </div>
+
+  <script>
+    const form = document.getElementById('receiptForm');
+    const resultDiv = document.getElementById('result');
+    const jsonOutput = document.getElementById('jsonOutput');
+    const img = document.getElementById('annotatedImg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      
+      const response = await fetch('/extract', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        jsonOutput.textContent = JSON.stringify(data.data, null, 2);
+        img.src = data.annotated_image;
+        resultDiv.style.display = 'block';
+      } else {
+        alert('Error: ' + (data.error || 'Unknown error'));
+      }
+    });
+  </script>
+</body>
+</html>
